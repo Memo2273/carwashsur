@@ -1,0 +1,107 @@
+
+
+
+
+
+<html lang="es">
+<head>
+   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/estiloconsulta.css">
+  <title>Formulario Registro</title>
+</head>
+
+<body>
+  <section class="form-register">
+    <h4>Formulario Registro vehicular</h4>
+
+    <form action="index.html" name="inicio" method="POST"> 
+      <input type="submit" name="inicio" borde="1" width="35" height="20" class="botons" style="position: absolute; top: 0; left: 0;" value="Inicio"/> 
+    </form>
+
+    <form action="consulta.html" method="POST"> 
+      <input class="botons" type="submit" name="eliminar" value="Eliminar servicio">
+      <input class="controls" type="text" name="pla" id="eliminar" placeholder="Ingrese la placa para eliminar servicio">   
+    </form>
+
+    <?php
+      $puerto = "localhost";
+      $usuario = "root";
+      $contraseña = "";
+      $conexion = mysql_connect($puerto, $usuario, $contraseña) or die("Error, revise la conexi�n al servidor local");
+      mysql_select_db("sistema", $conexion) or die("Error, revise la conexi�n a la base de datos");
+
+      if (isset($_POST['pla'])) {
+        $pla = $_POST['pla']; 
+        $eliminar = "DELETE FROM vehiculos WHERE placa='$pla'";
+        mysql_query($eliminar);
+        echo "<script> alert('Se ha eliminado el usuario correctamente, verifique la lista de personal');</script>";
+      }
+
+      if (isset($_POST["consulta"])) {   
+        $consulta = "SELECT * FROM vehiculos";
+        $cs = mysql_query($consulta, $conexion); 
+
+        echo "<table border='5' align='center'>";
+        echo "<tr bgcolor='#CCCCCC'>";
+        echo "<td>Placa</td>";
+        echo "<td>Nombre</td>";
+        echo "<td>Marca y modelo</td>";
+        echo "<td>Color</td>";
+        echo "<td>Operario</td>";
+        echo "<td>Vehiculo</td>";
+        echo "<td>Servicio</td>"; 
+        echo "<td>Valor</td>";  
+        echo "<td bgcolor='#CCCCCC'>Opciones</td>";  
+        echo "</tr>";
+
+        $totalValor = 0; // Variable para almacenar la suma de valores
+
+        while ($resul = mysql_fetch_array($cs)) {  
+          $placa = $resul[0];
+          $nombre = $resul[1];
+          $marcamod = $resul[2];
+          $color = $resul[3];
+          $lavador = $resul[4];
+          $vehiculo = $resul[5];
+          $servicio = $resul[6];
+          $valor = $resul[7];
+          $totalValor += $valor; // Sumar el valor al total
+
+          echo "<tr> 
+                  <td bgcolor='#FFFFFF'>$placa</td>
+                  <td bgcolor='#FFFFFF'>$nombre</td>
+                  <td bgcolor='#FFFFFF'>$marcamod</td>
+                  <td bgcolor='#FFFFFF'>$color</td>
+                  <td bgcolor='#FFFFFF'>$lavador</td>
+                  <td bgcolor='#FFFFFF'>$vehiculo</td>
+                  <td bgcolor='#FFFFFF'>$servicio</td>
+                  <td bgcolor='#FFFFFF'>$valor</td>
+                  <td bgcolor='#FFFFFF'>
+                    <a href='editar.php?pl=".$resul['placa']."'>
+                      <button type='botons' name='consulta' class='botons'>Modificar</button>
+                    </a>
+                  </td>
+                </tr>";
+        }
+
+        echo "</table>";
+
+        // Imprimir el total de valores
+        echo "<p>Total Valor: $totalValor</p>";
+
+        // Exportar a Excel
+        echo "<form action='exportar_excel.php' method='POST'> 
+                <input type='hidden' name='totalValor' value='$totalValor'> 
+                <input type='submit' name='exportarExcel' value='Exportar a Excel' class='botons'>
+              </form>";
+            
+  
+              
+      }
+    ?>
+  </section>
+</body>
+</html>

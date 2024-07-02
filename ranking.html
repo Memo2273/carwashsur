@@ -1,0 +1,116 @@
+
+
+<html lang="es">
+<head>
+   
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/estiloconsulta.css">
+  <title>Formulario Registro</title>
+</head>
+
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    
+
+  <section class="form-register">
+    <h4>Formulario Registro vehicular</h4>
+    
+    <div class="grafico-container">
+  <canvas id="grafico"></canvas>
+</div>
+    
+
+<form action="index.html" name="inicio" method="POST"> 
+<input type="submit" name="inicio" borde="1" width="35" height="20" class="botons" style="position: absolute; top: 0; left: 0;" value="Inicio"/> 
+</form>
+
+
+<?php
+
+$puerto="localhost";
+$usuario="root";
+$contraseña="";
+$conexion= mysql_connect($puerto,$usuario,$contraseña)or die("Error, revise la conexion al servidor local");
+mysql_select_db("sistema",$conexion)or die("Error, revise la conexion a la base de datos");
+
+
+  
+  if($_POST["ranking"]){   
+$ranking="select * from vehiculos";
+$cs=mysql_query($ranking,$conexion); 
+
+ 
+while($resul=mysql_fetch_array($cs)){
+ $placa=$resul[0];
+ $nombre=$resul[1];
+ $marcamod=$resul[2];
+ $color=$resul[3];
+ $lavador=$resul[4];
+ $vehiculo=$resul[5];
+ $servicio=$resul[6];
+ $valor=$resul[7];
+            
+
+  $datos = array();
+
+while ($resul = mysql_fetch_array($cs)) {
+  $placa = $resul[0];
+  $nombre = $resul[1];
+  $marcamod = $resul[2];
+  $color = $resul[3];
+  $lavador = $resul[4];
+  $vehiculo = $resul[5];
+  $servicio = $resul[6];
+  $valor = $resul[7];
+
+  $datos[] = array(
+    "placa" => $placa,
+    "nombre" => $nombre,
+    "marcamod" => $marcamod,
+    "color" => $color,
+    "lavador" => $lavador,
+    "vehiculo" => $vehiculo,
+    "servicio" => $servicio,
+    "valor" => $valor
+    
+
+  );
+}
+
+
+} 
+ } 
+
+
+ 
+?>
+
+<script>
+  const datos = <?php echo json_encode($datos); ?>;
+
+  const labels = datos.map(item => item.lavador);
+  const valores = datos.map(item => item.valor);
+
+  const ctx = document.getElementById('grafico').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Valor',
+        data: valores,
+        backgroundColor: 'rgba(50, 162, 235, 0.5)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+</script>

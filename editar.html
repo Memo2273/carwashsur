@@ -1,0 +1,88 @@
+
+        
+ 
+
+ 
+ <html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/estiloconsulta.css">
+  <title>Formulario Registro</title>
+</head>
+<body>
+  <section class="form-register">
+    <h4>Formulario Registro vehicular</h4>
+
+<form action="index.html" name="inicio" method="POST"> 
+<input type="submit" name="inicio" borde="0" width="35" height="20" class="botons" style="position: absolute; top: 0; left: 0;" value="Inicio"/> 
+</form>
+
+<?php
+$puerto = "localhost";
+$usuario = "root";
+$contrase�a = "";
+$conexion = mysql_connect($puerto, $usuario, $contrase�a) or die("Error, revise la conexi�n al servidor local");
+mysql_select_db("sistema", $conexion) or die("Error, revise la conexi�n a la base de datos");
+
+if ($_GET['pl']) {
+  $pl = $_GET['pl'];
+  $consulta = "SELECT * FROM vehiculos WHERE placa='$pl'";
+  $cs = mysql_query($consulta, $conexion);
+  while ($resul = mysql_fetch_array($cs)) {
+    ?>
+
+    <form action="actualizar.php" method="post">
+      <input class="controls" type="text" name="placa" id="placa" value="<?php echo $resul['placa'] ?>">
+      <input class="controls" type="text" name="nombre" id="nombre" value="<?php echo $resul['nombre'] ?>">
+      <input class="controls" type="text" name="marcamod" id="marcamod" value="<?php echo $resul['marcamod'] ?>">
+      <input class="controls" type="text" name="color" id="color" value="<?php echo $resul['color'] ?>">
+      <input class="controls" type="text" name="lavador" id="lavador" value="<?php echo $resul['lavador'] ?>">
+      <input class="controls" type="text" name="vehiculo" id="vehiculo" value="<?php echo $resul['vehiculo'] ?>">
+      <input class="controls" type="text" name="servicio" id="servicio" value="<?php echo $resul['servicio'] ?>">
+      <input class="controls" type="text" name="valor" id="valor" value="<?php echo $resul['valor'] ?>">
+      <input class="botons" type="submit" value="Guardar cambios" name="insertar">
+    </form>
+
+    <button class="botons" onclick="imprimirRecibo()">Imprimir</button>
+
+  <script>
+  function imprimirRecibo() {
+    var placa = "<?php echo $resul['placa'] ?>";
+    var nombre = "<?php echo $resul['nombre'] ?>";
+    var marcamod = "<?php echo $resul['marcamod'] ?>";
+    var color = "<?php echo $resul['color'] ?>";
+    var lavador = "<?php echo $resul['lavador'] ?>";
+    var vehiculo = "<?php echo $resul['vehiculo'] ?>";
+    var servicio = "<?php echo $resul['servicio'] ?>";
+    var valor = "<?php echo $resul['valor'] ?>";
+
+    var contenido =
+      "<div style='text-align: center;'>" +
+      "<img src='logocar.png' style='width: 100px; height: 100px;'>" + // Reemplaza 'ruta_del_logo' con la URL de tu logo
+      "<h1 style='font-family: Arial, sans-serif; color: #333;'>Tiquete de lavado vehicular</h1>" +
+      "<p><strong>Placa:</strong> " + placa + "</p>" +
+      "<p><strong>Nombre:</strong> " + nombre + "</p>" +
+      "<p><strong>Marca/Modelo:</strong> " + marcamod + "</p>" +
+      "<p><strong>Color:</strong> " + color + "</p>" +
+      "<p><strong>Lavador:</strong> " + lavador + "</p>" +
+      "<p><strong>Veh�culo:</strong> " + vehiculo + "</p>" +
+      "<p><strong>Servicio:</strong> " + servicio + "</p>" +
+      "<p><strong>Valor:</strong> " + valor + "</p>" +
+      "</div>";
+
+    var ventanaImpresion = window.open('', '', 'width=500,height=400');
+    ventanaImpresion.document.write('<style>body { margin: 20px; }</style>'); // Estilos adicionales para el documento
+    ventanaImpresion.document.write(contenido);
+    ventanaImpresion.document.close();
+    ventanaImpresion.print();
+  }
+</script>
+
+    <?php
+  }
+}
+?>
+</body>
+</html>

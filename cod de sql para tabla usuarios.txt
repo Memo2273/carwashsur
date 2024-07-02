@@ -1,0 +1,11 @@
+Create database sistema;
+
+CREATE TABLE vehiculos
+(placa VARCHAR(50),
+nombre VARCHAR(50),
+marcamod VARCHAR(50),
+color VARCHAR(50),
+lavador VARCHAR(50),
+vehiculo VARCHAR(50),
+servicio VARCHAR(50),
+valor VARCHAR(50));

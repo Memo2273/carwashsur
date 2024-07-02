@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/estiloregistro.css">
+  <title>Formulario Registro</title>
+</head>
+<body> 
+  <section class="form-register">
+    <h4>Registro de Veh�culos</h4> 
+    
+    <form action="agregar.html" method="post">
+    
+      <input class="controls" type="text" name="placa" id="placa" placeholder="Placa del Veh�culo"> 
+      <input class="controls" type="text" name="nombre" id="nombre" placeholder="Nombre del Due�o">
+      <input class="controls" type="text" name="marcamod" id="marcamod" placeholder="Marca y Modelo"> 
+      <input class="controls" type="text" name="color" id="color" placeholder="Color del Veh�culo">
+
+      <h1>Operario</h1> 
+      <select aria-label="Operario" name="lavador" class="checklist">
+        <option>Henry</option>
+        <option>Cesar</option>
+        <option>Carlos</option> 
+      </select>
+
+      <h1>Tipo de Veh�culo</h1>   
+      <select aria-label="Tipo de Veh�culo" name="vehiculo" class="checklist">
+        <option>Camioneta</option>
+        <option>Autom�vil</option>
+        <option>Moto</option> 
+      </select>
+
+      <h1>Tipo de Servicio</h1>  
+      <select aria-label="Tipo de Servicio" name="servicio" class="checklist">
+        <option>Lavado Aspirado</option>
+        <option>Lavado Aspirado Encerado</option>
+        <option>Lavado Pulido</option>
+        <option>Lavado Cojiner�a</option>
+        <option>Lavado Cojiner�a y Pulido</option> 
+        <option>Lavado Porcelanizado</option>
+        <option>Lavado Chasis</option>
+        <option>Lavado Motor</option>
+        <option>Lavado Motor y Chasis</option>
+        <option>Lavado Motor Rasqueteado Pulido</option>
+        <option>Lavado Combo Full</option>
+        <option>Otros Servicios</option> 
+      </select>
+
+      <input class="controls" type="text" name="valor" id="valor" placeholder="Valor">   
+    
+      <input class="botons" type="submit" value="Registrar" name="insertar">
+    </form>    
+
+    <form action="consulta.html" method="post">
+      <input class="botons" type="submit" name="consulta" value="Consultar Registro">
+    </form>  
+
+    <form action="buscar.html" method="post">    
+      <input class="botons" type="submit" name="busca" value="Consultar por Placa">  
+      <input class="controls" type="text" name="pl" placeholder="Ingrese la placa a consultar"> 
+    </form>
+
+    <form action="ranking.html" method="post">
+      <input class="botons" type="submit" name="ranking" value="Gr�fico Operarios">
+    </form>   
+ 
+  </section>
+</body>
+</html>
